@@ -82,13 +82,14 @@
 					</div>
 				</div>
 			</div>
-			<form class="contact__form">
-				<input type="text" placeholder="Name">
-				<input type="text" placeholder="Email">
-				<input type="text" placeholder="Phone">
-				<textarea placeholder="Message"></textarea>
-				<button class="site-btn">Send Message</button>
+			<form name="submit-to-google-sheet" class="contact__form">
+				<input type="name" name="Name" placeholder="Name">
+				<input type="email" name="Email" placeholder="Email">
+				<input type="phone" name="Phone" placeholder="Phone">
+				<textarea name="Message"placeholder="Message"></textarea>
+				<button type="submit" class="site-btn">Send Message</button>
 			</form>
+			<span id="msg"></span>
 		</div>
 	</section>
 	<!-- Contact Page end -->
@@ -122,5 +123,23 @@
 	<script src="js/slick.min.js"></script>
 	<script src="js/main.js"></script>
 
+	<script>
+		const scriptURL = 'https://script.google.com/macros/s/AKfycbzOJnWNcVRA7FA7weKqDxfWiHFKKJa83tgSvfGUS83d5-XSkG_Gv1FgP0MgH7sf54SeWw/exec'
+		const form = document.forms['submit-to-google-sheet']
+		const msg = document.getElementById("msg")
+	  
+		form.addEventListener('submit', e => {
+		  e.preventDefault()
+		  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+			.then(response => {
+				msg.innerHTML="Thanks for Submit!"
+				setTimeout(function(){
+					msg.innerHTML=""
+				},5000)
+				form.reset()
+			})
+			.catch(error => console.error('Error!', error.message))
+		})
+	  </script>
 	</body>
 </html>
